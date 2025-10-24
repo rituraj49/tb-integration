@@ -1,0 +1,32 @@
+package com.jamuara.crs.tbo.service;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
+
+@Service
+public class FareQuoteService {
+
+    private final RestTemplate restTemplate = new RestTemplate();
+    private static final String TBO_FARE_QUOTE_URL = "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareQuote";
+    
+
+    public Map<String, Object> getFareQuote(Map<String, Object> requestBody) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(
+                TBO_FARE_QUOTE_URL,
+                HttpMethod.POST,
+                entity,
+                Map.class
+        );
+
+
+        return response.getBody();
+    }
+}
+
