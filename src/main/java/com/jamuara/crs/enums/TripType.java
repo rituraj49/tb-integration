@@ -1,7 +1,7 @@
 package com.jamuara.crs.enums;
 
 public enum TripType {
-    ONEWAY,
+    OUTBOUND,
     RETURN,
     MULTICITY
 }

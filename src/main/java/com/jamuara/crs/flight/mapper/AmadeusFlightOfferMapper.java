@@ -8,8 +8,6 @@ import com.jamuara.crs.enums.TripType;
 import com.jamuara.crs.flight.dto.FlightAvailabilityResponse;
 import org.mapstruct.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +20,6 @@ public interface AmadeusFlightOfferMapper {
     @Mapping(source = "price.base", target = "basePrice")
     @Mapping(source = "price.grandTotal", target = "totalPrice")
     @Mapping(expression = "java(offer.getTravelerPricings().length)", target = "totalTravelers")
-    @Mapping(source = "price.fees", target = "fees")
     @Mapping(source = "itineraries", target = "trips")
     @Mapping(expression = "java(new com.google.gson.Gson().toJson(offer))", target = "pricingAdditionalInfo")
     FlightAvailabilityResponse toFlightAvailabilityResponse(FlightOfferSearch offer, @Context JsonObject dictionaries);
@@ -138,7 +135,7 @@ public interface AmadeusFlightOfferMapper {
         for (int i = 0; i < trips.size(); i++) trips.get(i).setTripNo(i + 1);
 
         int n = trips.size();
-        if (n == 1) trips.forEach(t -> t.setTripType(TripType.ONEWAY));
+        if (n == 1) trips.forEach(t -> t.setTripType(TripType.OUTBOUND));
         else if (n == 2) trips.forEach(t -> t.setTripType(TripType.RETURN));
         else trips.forEach(t -> t.setTripType(TripType.MULTICITY));
 

@@ -1,8 +1,11 @@
 package com.jamuara.crs.common.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -11,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class RestService {
     private final RestTemplate restTemplate;
 
@@ -25,8 +29,9 @@ public class RestService {
 //            Optional<String> username,
 //            Optional<String> password,
             Object body,
-            Class<T> responseType
+            ParameterizedTypeReference<T> responseType
         ) {
+        log.info("Rest Template request body: " + body.toString());
         HttpHeaders httpHeaders = new HttpHeaders();
 
         if(headers != null) {
@@ -45,6 +50,13 @@ public class RestService {
 
         HttpEntity<?> entity = new HttpEntity<>(body, httpHeaders);
 
-        return restTemplate.exchange(url, method, entity, responseType);
+        try {
+            var res = restTemplate.exchange(url, method, entity, responseType);
+            log.info("rest request completed successfully with status: {}", res.getStatusCode());
+            return res;
+        } catch (RestClientException e) {
+            log.error("Error in restTemplate exchange", e);
+            throw new RuntimeException(e);
+        }
     }
 }

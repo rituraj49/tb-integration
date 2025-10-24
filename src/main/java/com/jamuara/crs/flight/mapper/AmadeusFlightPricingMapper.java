@@ -150,7 +150,7 @@ public interface AmadeusFlightPricingMapper {
 
         int n = trips.size();
         if (n == 1) trips.forEach(t -> {
-            t.setTripType(TripType.ONEWAY);
+            t.setTripType(TripType.OUTBOUND);
         });
         else if (n == 2) trips.forEach(t -> t.setTripType(TripType.RETURN));
         else trips.forEach(t -> t.setTripType(TripType.MULTICITY));

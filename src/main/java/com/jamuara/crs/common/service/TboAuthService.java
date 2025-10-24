@@ -1,8 +1,11 @@
 package com.jamuara.crs.common.service;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -10,8 +13,11 @@ import java.util.Map;
 
 @Service
 public class TboAuthService {
-     @Autowired
-     private RestService restService;
+    @Autowired
+    private RestService restService;
+
+    @Getter
+    private static volatile String token = "";
 
     @Value("${tbo.client.username}")
     private String username;
@@ -26,15 +32,14 @@ public class TboAuthService {
         requestBody.put("Password", password);
         requestBody.put("EndUserIp", "192.168.197.1");
 
-        var authResponse = restService.sendRequest(
+        ResponseEntity<Map<String, Object>> authResponse = restService.sendRequest(
                 "http://Sharedapi.tektravels.com/SharedData.svc/rest/Authenticate",
                 HttpMethod.POST,
                 new HashMap<>(),
                 requestBody,
-                Object.class
+                new ParameterizedTypeReference<Map<String, Object>>() {}
         );
 
-        System.out.print("auth response: " + authResponse.getBody());
-//        authResponse.get
+        token = (String) authResponse.getBody().get("TokenId");
     }
 }
