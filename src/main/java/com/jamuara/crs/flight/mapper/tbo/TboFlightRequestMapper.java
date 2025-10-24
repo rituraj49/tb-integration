@@ -1,19 +1,26 @@
-package com.jamuara.crs.flight.mapper;
+package com.jamuara.crs.flight.mapper.tbo;
 
 import com.jamuara.crs.common.service.TboAuthService;
+import com.jamuara.crs.flight.dto.tbo.FlightFareQuoteRequest;
 import com.jamuara.crs.flight.dto.tbo.FlightSearchRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TboFlightSearchRequestMapper {
-    public static Map<String, Object> mapDtoToFlightRequest(FlightSearchRequest dto) {
-        String token = TboAuthService.getToken();
-        if(token == null) {
+public class TboFlightRequestMapper {
+    private static String token = TboAuthService.getToken();
 
+    private TboAuthService tboAuthService;
+
+    public TboFlightRequestMapper(TboAuthService tboAuthService) {
+        if(token == null) {
+            token = tboAuthService.authenticate();
         }
+    }
+
+    public static Map<String, Object> mapDtoToFlightRequest(FlightSearchRequest dto) {
+
         Map<String, Object> req = new HashMap<>();
 
         Map<String, Object> segDep = new HashMap<>();
@@ -42,5 +49,15 @@ public class TboFlightSearchRequestMapper {
         req.put("Segments", List.of(segDep, segRet));
 
         return req;
+    }
+
+    public static Map<String, String> mapToFareQuoteRequest(FlightFareQuoteRequest req) {
+        Map<String, String> requestBody = new HashMap<>();
+
+        requestBody.put("EndUserIp", "192.168.97.1");
+        requestBody.put("TokenId", token);
+        requestBody.put("TraceId", req.getTraceId());
+        requestBody.put("ResultIndex", req.getResultIndex());
+        return requestBody;
     }
 }

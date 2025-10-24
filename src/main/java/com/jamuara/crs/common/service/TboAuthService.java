@@ -25,7 +25,7 @@ public class TboAuthService {
     @Value("${tbo.client.password}")
     private String password;
 
-    public void authenticate() {
+    public String authenticate() {
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("ClientId", "ApiIntegrationNew");
         requestBody.put("UserName", username);
@@ -41,5 +41,8 @@ public class TboAuthService {
         );
 
         token = (String) authResponse.getBody().get("TokenId");
+
+        return (String) authResponse.getBody().get("TokenId");
+
     }
 }

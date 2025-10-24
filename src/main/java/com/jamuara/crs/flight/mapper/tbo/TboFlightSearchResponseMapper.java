@@ -1,8 +1,7 @@
-package com.jamuara.crs.flight.mapper;
+package com.jamuara.crs.flight.mapper.tbo;
 
 import com.jamuara.crs.common.Helper;
 import com.jamuara.crs.config.CentralMapperConfig;
-import com.jamuara.crs.enums.TripType;
 import com.jamuara.crs.flight.dto.tbo.FlightDetailsResponse;
 import com.jamuara.crs.flight.dto.tbo.FlightSearchResponse;
 import com.jamuara.crs.flight.dto.tbo.TboApiFlightResponseDto;
