@@ -34,6 +34,7 @@ public class TboFlightService {
     public FlightSearchResponse flightSearch(FlightSearchRequest searchRequest) {
         log.info("search request received: {}", searchRequest.toString());
         Map<String, Object> requestBody = TboFlightRequestMapper.mapDtoToFlightRequest(searchRequest);
+//        System.out.println(requestBody);
         ResponseEntity<TboApiFlightResponseDto> response = restService.sendRequest(
                 TBO_FLIGHT_URL + "/Search",
                 HttpMethod.POST,
@@ -42,6 +43,7 @@ public class TboFlightService {
                 new ParameterizedTypeReference<TboApiFlightResponseDto>() {}
         );
 
+  //      System.out.println(tboFlightSearchResponseMapper.mapToFlightSearchResponse(response.getBody().getResponse()));
         return tboFlightSearchResponseMapper.mapToFlightSearchResponse(response.getBody().getResponse());
     }
 
@@ -56,7 +58,8 @@ public class TboFlightService {
                 new ParameterizedTypeReference<TboApiFareQuoteResponseDto>() {}
         );
 
-        FlightFareQuoteResponse response = tboFareQuoteResponseMapper.mapToFareQuoteResponse(responseBody);
+        //FlightFareQuoteResponse response = tboFareQuoteResponseMapper.mapToFareQuoteResponse(responseBody);
+         FlightFareQuoteResponse response=tboFareQuoteResponseMapper.mapToFlightFareQuoteResponse(responseBody.getBody().getResponse());
 
         return response;
     }

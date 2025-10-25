@@ -1,141 +1,283 @@
 package com.jamuara.crs.flight.dto.tbo;
 
-import com.jamuara.crs.tbo.model.FareQuoteResponse;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class TboApiFareQuoteResponseDto {
-    private FareQuoteResponse.Response Response;
 
-    public FareQuoteResponse.Response getResponse() {
-        return Response;
-    }
-
-    public void setResponse(FareQuoteResponse.Response response) {
-        Response = response;
-    }
+    @JsonProperty("Response")
+    private Response response;
 
     @Data
     public static class Response {
-        private FareQuoteResponse.Error Error;
-        private boolean IsPriceChanged;
-        private int ResponseStatus;
-        private FareQuoteResponse.Results Results;
-        private String TraceId;
+
+        @JsonProperty("Error")
+        private Error error;
+
+
+
+        @JsonProperty("FlightDetailChangeInfo")
+        private String flightDetailChangeInfo;
+
+        @JsonProperty("IsPriceChanged")
+        private boolean isPriceChanged;
+       // private boolean priceChanged;
+
+        @JsonProperty("ItineraryChangeList")
+        private String[] itineraryChangeList;
+
+        @JsonProperty("ResponseStatus")
+        private int responseStatus;
+
+        @JsonProperty("TraceId")
+        private String traceId;
+
+        @JsonProperty("Results")
+        private Results results;
 
     }
 
     @Data
     public static class Error {
-        private int ErrorCode;
-        private String ErrorMessage;
+        @JsonProperty("ErrorCode")
+        private int errorCode;
 
-
+        @JsonProperty("ErrorMessage")
+        private String errorMessage;
     }
 
     @Data
     public static class Results {
-        private String ResultIndex;
-        private boolean IsLCC;
-        private boolean IsRefundable;
-        private String AirlineRemark;
-        private FareQuoteResponse.Fare Fare;
-        private List<FareQuoteResponse.FareBreakdown> FareBreakdown;
-        private List<List<FareQuoteResponse.Segment>> Segments;
-        private List<FareQuoteResponse.FareRule> FareRules;
-        private String ValidatingAirline;
+        @JsonProperty("ResultIndex")
+        private String resultIndex;
 
+        @JsonProperty("IsLCC")
+        private boolean isLCC;
 
+        @JsonProperty("IsRefundable")
+        private boolean isRefundable;
+
+        @JsonProperty("AirlineRemark")
+        private String airlineRemark;
+
+        @JsonProperty("Fare")
+        private Fare fare;
+
+        @JsonProperty("FareBreakdown")
+        private List<FareBreakdown> fareBreakdown;
+
+        @JsonProperty("Segments")
+        private List<List<Segment>> segments;
+
+        @JsonProperty("FareRules")
+        private List<FareRule> fareRules;
+
+        @JsonProperty("ValidatingAirline")
+        private String validatingAirline;
+
+        @JsonProperty("LastTicketDate")
+        private String lastTicketDate;
+
+        @JsonProperty("FareClassification")
+        private FareClassification fareClassification;
     }
 
     @Data
     public static class Fare {
-        private String Currency;
-        private double BaseFare;
-        private double Tax;
-        private List<FareQuoteResponse.TaxBreakup> TaxBreakup;
-        private double PublishedFare;
-        private double OfferedFare;
 
+        @JsonProperty("Currency")
+        private String currency;
 
+        @JsonProperty("BaseFare")
+        private double baseFare;
+
+        @JsonProperty("Tax")
+        private double tax;
+
+        @JsonProperty("TaxBreakup")
+        private List<KeyValue> taxBreakup;
+
+        @JsonProperty("PublishedFare")
+        private double publishedFare;
+
+        @JsonProperty("OfferedFare")
+        private double offeredFare;
+
+        @JsonProperty("YQTax")
+        private double yqTax;
+
+        @JsonProperty("PGCharge")
+        private double pgCharge;
+
+        @JsonProperty("OtherCharges")
+        private double otherCharges;
+
+        @JsonProperty("ChargeBU")
+        private List<KeyValue> chargeBU;
+
+        @JsonProperty("CommissionEarned")
+        private double commissionEarned;
+
+        @JsonProperty("PLBEarned")
+        private double plbEarned;
+
+        @JsonProperty("IncentiveEarned")
+        private double incentiveEarned;
+
+        @JsonProperty("TotalBaggageCharges")
+        private double totalBaggageCharges;
+
+        @JsonProperty("TotalMealCharges")
+        private double totalMealCharges;
+
+        @JsonProperty("TotalSeatCharges")
+        private double totalSeatCharges;
     }
 
     @Data
-    public static class TaxBreakup {
+    public static class KeyValue {
+        @JsonProperty("key")
         private String key;
-        private double value;
 
+        @JsonProperty("value")
+        private double value;
     }
 
     @Data
     public static class FareBreakdown {
-        private String Currency;
-        private int PassengerType;
-        private int PassengerCount;
-        private double BaseFare;
-        private double Tax;
+        @JsonProperty("Currency")
+        private String currency;
 
+        @JsonProperty("PassengerType")
+        private int passengerType;
 
+        @JsonProperty("PassengerCount")
+        private int passengerCount;
+
+        @JsonProperty("BaseFare")
+        private double baseFare;
+
+        @JsonProperty("Tax")
+        private double tax;
+
+        @JsonProperty("TaxBreakUp")
+        private List<KeyValue> taxBreakUp;
+
+        @JsonProperty("YQTax")
+        private double yqTax;
+
+        @JsonProperty("PGCharge")
+        private double pgCharge;
     }
 
     @Data
     public static class Segment {
-        private String Baggage;
-        private String CabinBaggage;
-        private int CabinClass;
-        private FareQuoteResponse.Airline Airline;
-        private FareQuoteResponse.Origin Origin;
-        private FareQuoteResponse.Destination Destination;
-        private int Duration;
+        @JsonProperty("Baggage")
+        private String baggage;
 
+        @JsonProperty("CabinBaggage")
+        private String cabinBaggage;
 
+        @JsonProperty("CabinClass")
+        private int cabinClass;
+
+        @JsonProperty("Airline")
+        private Airline airline;
+
+        @JsonProperty("Origin")
+        private AirportInfo origin;
+
+        @JsonProperty("Destination")
+        private AirportInfo destination;
+
+        @JsonProperty("Duration")
+        private int duration;
+
+        @JsonProperty("Craft")
+        private String craft;
     }
 
     @Data
     public static class Airline {
-        private String AirlineCode;
-        private String AirlineName;
-        private String FlightNumber;
-        private String FareClass;
+        @JsonProperty("AirlineCode")
+        private String airlineCode;
 
+        @JsonProperty("AirlineName")
+        private String airlineName;
+
+        @JsonProperty("FlightNumber")
+        private String flightNumber;
+
+        @JsonProperty("FareClass")
+        private String fareClass;
+
+        @JsonProperty("OperatingCarrier")
+        private String operatingCarrier;
     }
 
     @Data
-    public static class Origin {
-        private FareQuoteResponse.Airport Airport;
-        private String DepTime;
+    public static class AirportInfo {
+        @JsonProperty("Airport")
+        private Airport airport;
 
-    }
+        @JsonProperty("DepTime")
+        private String depTime;
 
-
-    @Data
-    public static class Destination {
-        private FareQuoteResponse.Airport Airport;
-        private String ArrTime;
-
+        @JsonProperty("ArrTime")
+        private String arrTime;
     }
 
     @Data
     public static class Airport {
-        private String AirportCode;
-        private String AirportName;
-        private String CityCode;
-        private String CityName;
-        private String CountryCode;
-        private String CountryName;
+        @JsonProperty("AirportCode")
+        private String airportCode;
 
+        @JsonProperty("AirportName")
+        private String airportName;
+
+        @JsonProperty("Terminal")
+        private String terminal;
+
+        @JsonProperty("CityCode")
+        private String cityCode;
+
+        @JsonProperty("CityName")
+        private String cityName;
+
+        @JsonProperty("CountryCode")
+        private String countryCode;
+
+        @JsonProperty("CountryName")
+        private String countryName;
     }
 
     @Data
     public static class FareRule {
-        private String Origin;
-        private String Destination;
-        private String Airline;
-        private String FareBasisCode;
-        private String FareRuleDetail;
-        private String FareRestriction;
+        @JsonProperty("FareBasisCode")
+        private String fareBasisCode;
 
+        @JsonProperty("FareRuleDetail")
+        private String fareRuleDetail;
+
+        @JsonProperty("FareRestriction")
+        private String fareRestriction;
+
+        @JsonProperty("Origin")
+        private String origin;
+
+        @JsonProperty("Destination")
+        private String destination;
+    }
+
+    @Data
+    public static class FareClassification {
+        @JsonProperty("Color")
+        private String color;
+
+        @JsonProperty("Type")
+        private String type;
     }
 }

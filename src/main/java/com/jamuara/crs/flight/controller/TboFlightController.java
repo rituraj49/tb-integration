@@ -2,6 +2,8 @@ package com.jamuara.crs.flight.controller;
 
 import com.amadeus.exceptions.ResponseException;
 import com.jamuara.crs.flight.dto.FlightAvailabilityResponse;
+import com.jamuara.crs.flight.dto.tbo.FlightFareQuoteRequest;
+import com.jamuara.crs.flight.dto.tbo.FlightFareQuoteResponse;
 import com.jamuara.crs.flight.dto.tbo.FlightSearchRequest;
 import com.jamuara.crs.flight.dto.tbo.FlightSearchResponse;
 import com.jamuara.crs.flight.service.TboFlightService;
@@ -25,6 +27,7 @@ public class TboFlightController {
     }
 
     @GetMapping("/search")
+    //@PostMapping("/search")
     public ResponseEntity<?> searchFlights(@ModelAttribute FlightSearchRequest request) {
         try {
             FlightSearchResponse response = tboFlightService.flightSearch(request);
@@ -36,4 +39,25 @@ public class TboFlightController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
+
+
+
+
+
+
+    @GetMapping("/FareQuote")
+    //@PostMapping("/FareQuote")
+    public ResponseEntity<?> fareQuote(@ModelAttribute FlightFareQuoteRequest request) {
+        try {
+            FlightFareQuoteResponse response = tboFlightService.flightFareQuote(request);
+//            log.info("{} flight offers found", flightResponseList.size());
+
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+        } catch (Exception e) {
+            log.error("An internal error occurred while processing flight offer search API: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+
 }
